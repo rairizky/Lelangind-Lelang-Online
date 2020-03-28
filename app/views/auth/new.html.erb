@@ -1,0 +1,88 @@
+<div class="uk-background uk-background-muted" uk-height-viewport>
+    <div class="uk-flex uk-flex-center uk-flex-middle uk-padding-small" uk-height-viewport>
+        <div class="uk-margin">
+            <div class="uk-text-center">
+                <h2 class="uk-margin-remove-bottom">Lelangind</h3>
+                <h4 class="uk-text-meta uk-margin-remove-top">Aplikasi lelang online.</h5>
+            </div>
+            <div class="uk-card uk-card-default uk-border-rounded uk-box-shadow-medium uk-width-2-2">
+                <div class="uk-padding-small uk-padding-remove-bottom uk-text-center">
+                    <h4>Login Masyarakat</h4>
+                </div>
+                <ul class="uk-flex-center uk-padding-remove-top" uk-tab>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Daftar</a></li>
+                </ul>
+                
+                <ul class="uk-switcher">
+                    <li>
+                        <div class="uk-margin-right uk-margin-left"> 
+                            <% if alert %>
+                                <div class="uk-alert-danger" uk-alert>
+                                    <a class="uk-alert-close" uk-close></a>
+                                    <p><%= alert %></p>
+                                </div>
+                            <% end %>
+                            <% if notice %>
+                                <div class="uk-alert-success" uk-alert>
+                                    <a class="uk-alert-close" uk-close></a>
+                                    <p><%= notice %></p>
+                                </div>
+                            <% end %>
+                            <% if @masyarakat.errors.any? %>
+                                <div class="uk-alert-danger" uk-alert>
+                                    <a class="uk-alert-close" uk-close></a>
+                                    <h5><%= pluralize(@masyarakat.errors.count, "error") %> Upss!, tidak bisa daftar :</h5>
+                                    <hr>
+                                    <ul>
+                                    <% @masyarakat.errors.full_messages.each do |msg| %>
+                                    <li><%= msg %></li>
+                                    <% end %>
+                                    </ul>
+                                </div>
+                            <% end %>
+                            <%= form_tag controller: :auth, action: :create_m_auth do %>
+                                <div class="uk-margin">
+                                    <%= label_tag "Username" %>
+                                    <%= text_field_tag :username, '', class: 'uk-input uk-width-1-1', placeholder: 'Natsir12', autocomplete: 'off' %>
+                                </div>
+                                <div>
+                                    <%= label_tag "Password" %>
+                                    <%= password_field_tag :password, '', class: 'uk-input uk-width-1-1', placeholder: '••••••' %>
+                                </div>
+                                <div class="uk-margin">
+                                    <%= submit_tag 'Masuk', class: 'uk-button uk-button-primary uk-width-1-1 uk-margin' %>
+                                </div>
+                            <% end %>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-margin-right uk-margin-left">
+                            <%= form_with model: @masyarakat, url: create_m_user_path, local: true do |f| %>
+                                <div class="uk-margin">
+                                    <%= f.label 'Nama Lengkap' %>
+                                    <%= f.text_field :nama_lengkap, class: 'uk-input uk-width-1-1', placeholder: 'jajang purnama', autocomplete: 'off' %>
+                                </div>
+                                <div class="uk-margin">
+                                    <%= f.label 'Username' %>
+                                    <%= f.text_field :username, class: 'uk-input uk-width-1-1', placeholder: 'jajang88', autocomplete: 'off' %>
+                                </div>
+                                <div class="uk-margin">
+                                    <%= f.label 'Password' %>
+                                    <%= f.password_field :password, class: 'uk-input uk-width-1-1', placeholder: '••••••' %>
+                                </div>
+                                <div class="uk-margin">
+                                    <%= f.label 'No. Telp' %>
+                                    <%= f.text_field :telp, class: 'uk-input uk-width-1-1', placeholder: '0858xxxx', autocomplete: 'off' %>
+                                </div>
+                                <div clas]uk-margin>
+                                    <%= f.submit 'Daftar', class: 'uk-input uk-button uk-button-primary uk-width-1-1 uk-margin' %>
+                                </div>
+                            <% end %>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

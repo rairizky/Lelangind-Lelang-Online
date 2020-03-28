@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lelangind - Home</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body class="uk-background uk-background-muted" uk-height-viewport>
+    <nav class="uk-background uk-background-primary uk-light uk-box-shadow-medium" uk-navbar>
+      <div class="uk-navbar-left">
+  
+          <ul class="uk-navbar-nav">
+              <li class="uk-active"><a href="#">Lelangind</a></li>
+              <li><a href="#">Item</a></li>
+          </ul>
+  
+      </div>
+      <div class="uk-navbar-right">
+  
+          <ul class="uk-navbar-nav">
+              <% if current_user_m %>
+                <li>
+                  <a href="#"><%= current_user_m.nama_lengkap %></a>
+                  <div class="uk-navbar-dropdown">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                          <li class="uk-active"><a href="#">UMUM</a></li>
+                          <li><a href="#">Profile</a></li>
+                          <li><a href="#">History</a></li>
+                          <li class="uk-nav-divider"></li>
+                          <li><%= link_to 'Logout', destroy_s_m_path(current_user_m), method: :delete %></li>
+                      </ul>
+                  </div>
+                </li>
+              <% else %>
+                <li class="uk-active"><%= link_to 'Masuk / daftar', auth_new_path %></li>
+              <% end %>
+          </ul>
+      </div>
+    </nav>
+    <div class="uk-container uk-padding">
+        <%= yield %>
+    </div>
+  </body>
+</html>
