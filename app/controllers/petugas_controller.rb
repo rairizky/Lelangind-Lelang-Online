@@ -18,7 +18,17 @@ class PetugasController < ApplicationController
   end
 
   def manage_petugas
+    @new_petugas = Petugas.new
+    @list_petugas = Petugas.all
+  end
 
+  def create_new_petugas
+    @new_petugas = Petugas.new(new_petugas_params)
+    if @new_petugas.save
+      redirect_to manage_petugas_path, notice: 'Akun Petugas berhasil dibuat!'
+    else
+      render :manage_petugas
+    end
   end
 
   def generate_laporan
@@ -41,5 +51,9 @@ class PetugasController < ApplicationController
   private
   def profile_edit_params
     params.require(:petugas).permit(:nama_petugas, :username)
+  end
+
+  def new_petugas_params
+    params.require(:petugas).permit(:nama_petugas, :username, :password, :password_confirmation, :level_id)
   end
 end

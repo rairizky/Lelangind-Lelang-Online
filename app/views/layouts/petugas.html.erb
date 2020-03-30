@@ -47,18 +47,23 @@
                 <p>Pendataan Barang</p>
               <% end %>
             </li>
-            <li class="<%= current_class?(barang_lelang_p_path) %>">
+            <% if current_user_p.level_id == 1 %>
+              <li class="<%= current_class?(manage_petugas_path) %>">
+                <%= link_to manage_petugas_path do %>
+                  <i class="nc-icon nc-single-02"></i>
+                  <p>Petugas</p>
+                <% end %>
+              </li>
+            <% elsif current_user_p.level_id == 2 %>
+              <li class="<%= current_class?(barang_lelang_p_path) %>">
               <%= link_to barang_lelang_p_path do %>
                 <i class="nc-icon nc-bullet-list-67"></i>
                 <p>Lelang Barang</p>
               <% end %>
-            </li>
-            <li class="<%= current_class?(manage_petugas_path) %>">
-              <%= link_to manage_petugas_path do %>
-                <i class="nc-icon nc-single-02"></i>
-                <p>Petugas</p>
-              <% end %>
-            </li>
+              </li>
+            <% else %>
+
+            <% end %>
             <li class="<%= current_class?(laporan_path) %>">
               <%= link_to laporan_path do %>
                 <i class="nc-icon nc-single-copy-04"></i>

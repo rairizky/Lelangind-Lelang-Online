@@ -1,1 +1,99 @@
-<h1>Acak Acak petugas slur</h1>
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @new_petugas.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5><%= pluralize(@new_petugas.errors.count, "error") %> Upss!, Gagal update profile :</h5>
+    <hr>
+    <ul>
+      <% @new_petugas.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Tambah Petugas</h4>
+                <p class="text-muted">Buat akun untuk petugas</p>
+                <hr>
+            </div>
+            <div class="card-body">
+                <%= form_with model: @new_petugas, url: create_new_petugas_path, local: true do |p| %>
+                    <div class="form-group">
+                        <%= p.label 'Nama petugas' %>
+                        <%= p.text_field :nama_petugas, class: 'form-control', placeholder: 'jajang supratman', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <%= p.label 'Username' %>
+                        <%= p.text_field :username, class: 'form-control', placeholder: 'jajang221', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <%= p.label 'Password' %>
+                        <%= p.password_field :password, class: 'form-control', placeholder: '••••••' %>
+                    </div>
+                    <div class="form-group">
+                        <%= p.label 'Password konfimarsi' %>
+                        <%= p.password_field :password_confirmation, class: 'form-control', placeholder: '••••••' %>
+                    </div>
+                    <div class="form-group">
+                        <%= p.label 'Level' %>
+                        <%= p.select(:level_id, options_for_select(Level.all.map{ |l| [l.level, l.id] }), { prompt: '---- pilih level ----' }, { class: 'form-control' }) %>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="update ml-auto mr-auto">
+                                <%= p.submit 'Tambah Petugas', class: 'btn btn-primary btn-round' %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Daftar Petugas</h4>
+                <p class="text-muted">Daftar akun pengurus lelang</p>  
+                <hr> 
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>Nama Petugas</th>
+                                <th>Username</th>
+                                <th>Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @list_petugas.each do |list| %>
+                                <tr>
+                                    <td><%= list.nama_petugas %></td>
+                                    <td><%= list.username %></td>
+                                    <td><%= Level.find(list.level_id).level %></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
