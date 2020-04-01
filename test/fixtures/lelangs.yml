@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  barang_id: 1
+  tgl_lelang: 2020-04-01
+  harga_akhir: 1
+  user_id: 1
+  petugas_id: 1
+  status: MyString
+
+two:
+  barang_id: 1
+  tgl_lelang: 2020-04-01
+  harga_akhir: 1
+  user_id: 1
+  petugas_id: 1
+  status: MyString

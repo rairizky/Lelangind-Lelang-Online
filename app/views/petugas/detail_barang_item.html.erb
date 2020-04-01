@@ -1,0 +1,75 @@
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= link_to 'Home', petugas_index_path %></li>
+                  <li class="breadcrumb-item"><%= link_to 'Pendataan Barang', data_barang_p_path %></li>
+                  <li class="breadcrumb-item active" aria-current="page"><%= @item.nama_barang %></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><%= @item.nama_barang %></h4>
+                <p class="text-muted">Detail barang <%= @item.nama_barang %></p>
+                <hr>
+            </div>
+            <div class="card-body">
+                <img src="<%= @item.img_barang %>" class="img-thumbnail" alt="img_barang_<%= @item.nama_barang %>">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Tanggal dibuat</label>
+                    <input type="date" readonly="readonly" class="form-control w-25" value="<%= @item.tgl %>">
+                </div>
+                <div class="form-group">
+                    <label>Harga Awal</label>
+                    <input type="text" readonly="readonly" class="form-control w-50" value="Rp. <%= number_with_delimiter(@item.harga_awal) %>">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi barang</label>
+                    <p><%= @item.deskripsi_barang %></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-center">
+                    <%= link_to '#', class: 'btn btn-primary' do %>
+                    <i class="nc-icon nc-air-baloon"></i>
+                    Buka Lelang
+                <% end %>
+                <%= link_to '#', class: 'btn btn-info' do %>
+                    <i class="nc-icon nc-spaceship"></i>
+                    Edit Barang
+                <% end %>
+                <%= link_to '#', class: 'btn btn-danger' do %>
+                    <i class="nc-icon nc-spaceship"></i>
+                    Hapus
+                <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

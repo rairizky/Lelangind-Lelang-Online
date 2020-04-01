@@ -1,1 +1,124 @@
-<h1>Slur murahin</h1>
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @new_barang.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5><%= pluralize(@new_barang.errors.count, "error") %> Upss!, Gagal tambah barang :</h5>
+    <hr>
+    <ul>
+      <% @new_barang.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= link_to 'Home', petugas_index_path %></li>
+                  <li class="breadcrumb-item active" aria-current="page">Pendataan Barang</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Tambah Barang</h4>
+                <p class="text-muted">Tambah barang untuk stok lelang</p>
+                <hr>
+            </div>
+            <div class="card-body">
+                <%= form_with model: @new_barang, url: create_new_barang_path, local: true do |b| %>
+                    <div class="form-group">
+                        <%= b.label 'Nama barang' %>
+                        <%= b.text_field :nama_barang, class: 'form-control', placeholder: 'Contoh : lemari', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Foto barang' %>
+                        <div class="custom-file">
+                            <%= b.file_field :img_barang, class: 'custom-file-input', id: 'customFile' %>
+                            <label class="custom-file-label" for="customFile">Pilih Foto Barang</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Tanggal upload' %>
+                        <%= b.date_field :tgl, class: 'form-control', placeholder: 'dd/mm/yyyy', autocomplete: 'off', value: DateTime.current.to_date, readonly: true %>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Harga awal' %>
+                        <%= b.text_field :harga_awal, class: 'form-control', placeholder: 'Contoh : 50000', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Deskripsi barang' %>
+                        <%= b.text_area :deskripsi_barang, class: 'form-control', placeholder: 'Deskripsi barang ...', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="update ml-auto mr-auto">
+                                <%= b.submit 'Tambah Barang', class: 'btn btn-primary btn-round' %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Daftar Barang</h4>
+                <p class="text-muted">Daftar stok barang lelang</p>  
+                <hr> 
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="data-barang" class="table table-hover table-sm">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Barang</th>
+                                <th>Harga Awal</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @list_barang.each.with_index(@list_barang.offset+1) do |b, index| %>
+                                <tr>
+                                    <td><%= index %></td>
+                                    <td><%= b.nama_barang %></td>
+                                    <td>Rp. <%= number_with_delimiter(b.harga_awal) %></td>
+                                    <td>
+                                        <%= link_to detail_barang_item_path(b), class: 'btn btn-sm btn-primary' do %>
+                                            <i class="nc-icon nc-spaceship"></i>
+                                            Setting
+                                        <% end %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end">
+                        <%= will_paginate @list_barang, renderer: BootstrapPagination::Rails %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

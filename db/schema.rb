@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_060543) do
+ActiveRecord::Schema.define(version: 2020_04_01_034406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "barangs", force: :cascade do |t|
+    t.string "nama_barang", limit: 25, null: false
+    t.string "img_barang", null: false
+    t.date "tgl", null: false
+    t.integer "harga_awal", null: false
+    t.text "deskripsi_barang", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "lelangs", force: :cascade do |t|
+    t.integer "barang_id"
+    t.date "tgl_lelang"
+    t.integer "harga_akhir"
+    t.integer "user_id"
+    t.integer "petugas_id"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "levels", force: :cascade do |t|
-    t.string "level"
+    t.string "level", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

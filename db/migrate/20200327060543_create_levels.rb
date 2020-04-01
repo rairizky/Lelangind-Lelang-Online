@@ -1,7 +1,7 @@
 class CreateLevels < ActiveRecord::Migration[6.0]
   def change
     create_table :levels do |t|
-      t.string :level
+      t.string :level, null: false
 
       t.timestamps
     end

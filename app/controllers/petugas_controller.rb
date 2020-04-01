@@ -10,7 +10,22 @@ class PetugasController < ApplicationController
   end
 
   def pendataan_barang
-    
+    @new_barang = Barang.new
+    @list_barang = Barang.paginate(page: params[:page], per_page: 7)
+  end
+
+  def create_new_barang
+    @list_barang = Barang.paginate(page: params[:page], per_page: 7)
+    @new_barang = Barang.new(new_barang_params)
+    if @new_barang.save
+      redirect_to data_barang_p_path, notice: 'Barang berhasil ditambahkan!'
+    else
+      render :pendataan_barang
+    end
+  end
+
+  def detail_barang_item
+    @item = Barang.find(params[:id])
   end
 
   def barang_lelang
@@ -19,10 +34,11 @@ class PetugasController < ApplicationController
 
   def manage_petugas
     @new_petugas = Petugas.new
-    @list_petugas = Petugas.all
+    @list_petugas = Petugas.paginate(page: params[:page], per_page: 7)
   end
 
   def create_new_petugas
+    @list_petugas = Petugas.paginate(page: params[:page], per_page: 7)
     @new_petugas = Petugas.new(new_petugas_params)
     if @new_petugas.save
       redirect_to manage_petugas_path, notice: 'Akun Petugas berhasil dibuat!'
@@ -54,6 +70,10 @@ class PetugasController < ApplicationController
   end
 
   def new_petugas_params
-    params.require(:petugas).permit(:nama_petugas, :username, :password, :password_confirmation, :level_id)
+    params.require(:petugas).permit(:nama_petugas, :username, :password, :level_id)
+  end
+
+  def new_barang_params
+    params.require(:barang).permit(:nama_barang, :img_barang, :tgl, :harga_awal, :deskripsi_barang)
   end
 end

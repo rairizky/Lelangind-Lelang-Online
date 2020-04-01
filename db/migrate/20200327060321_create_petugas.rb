@@ -8,7 +8,7 @@ class CreatePetugas < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-
+    
     Petugas.create! do |p|
       p.nama_petugas = "admin"
       p.username = "admin1"

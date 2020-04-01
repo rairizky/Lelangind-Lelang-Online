@@ -1,1 +1,34 @@
-<h1>Barang lelang</h1>
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+      <div class="d-flex justify-content-end">
+          <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= link_to 'Home', petugas_index_path %></li>
+                <li class="breadcrumb-item active" aria-current="page">Barang Lelang</li>
+              </ol>
+          </nav>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Daftar barang lelang</h4>
+        <p class="text-muted">Pilih barang untuk buka dan tutup lelang</p>
+      </div>
+    </div>
+  </div>
+</div>

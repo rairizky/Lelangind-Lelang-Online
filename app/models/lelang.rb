@@ -1,0 +1,2 @@
+class Lelang < ApplicationRecord
+end
