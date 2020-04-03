@@ -11,14 +11,14 @@ class PetugasController < ApplicationController
 
   def pendataan_barang
     @new_barang = Barang.new
-    @list_barang = Barang.paginate(page: params[:page], per_page: 7)
+    @list_barang = Barang.paginate(page: params[:page], per_page: 6).order(created_at: :desc)
   end
 
   def create_new_barang
-    @list_barang = Barang.paginate(page: params[:page], per_page: 7)
+    @list_barang = Barang.paginate(page: params[:page], per_page: 6).order(created_at: :desc)
     @new_barang = Barang.new(new_barang_params)
     if @new_barang.save
-      redirect_to data_barang_p_path, notice: 'Barang berhasil ditambahkan!'
+      redirect_to detail_barang_item_path(@new_barang), notice: 'Barang berhasil ditambahkan!'
     else
       render :pendataan_barang
     end
@@ -28,17 +28,32 @@ class PetugasController < ApplicationController
     @item = Barang.find(params[:id])
   end
 
-  def barang_lelang
+  def buka_lelang
+    @item = Barang.find(params[:id])
+    buka = Lelang.create(barang_id: @item.id, tgl_lelang: DateTime.current.to_date, petugas_id: current_user_p.id, status: 'dibuka')
+    if buka
+      redirect_to barang_lelang_p_path, notice: "Lelang #{@item.nama_barang} telah dibuka!"
+    else
+      redirect_to detail_barang_item_path, alert: 'Gagal buka lelang!'
+    end
+  end
 
+  def barang_lelang
+    @barang = Barang.paginate(page: params[:page], per_page: 6).where(nil)
+    @barang = Barang.paginate(page: params[:page], per_page: 6).where('nama_barang like ?', "%#{params[:nama_barang]}%") if params[:nama_barang].present?
+  end
+
+  def barang_lelang_detail
+    @item = Barang.find(params[:id])
   end
 
   def manage_petugas
     @new_petugas = Petugas.new
-    @list_petugas = Petugas.paginate(page: params[:page], per_page: 7)
+    @list_petugas = Petugas.paginate(page: params[:page], per_page: 6).order(created_at: :desc).where(level_id: 2)
   end
 
   def create_new_petugas
-    @list_petugas = Petugas.paginate(page: params[:page], per_page: 7)
+    @list_petugas = Petugas.paginate(page: params[:page], per_page: 6).order(created_at: :desc)
     @new_petugas = Petugas.new(new_petugas_params)
     if @new_petugas.save
       redirect_to manage_petugas_path, notice: 'Akun Petugas berhasil dibuat!'

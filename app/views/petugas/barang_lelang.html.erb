@@ -26,9 +26,69 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Daftar barang lelang</h4>
-        <p class="text-muted">Pilih barang untuk buka dan tutup lelang</p>
+        <%= form_tag barang_lelang_p_path, method: :get do %>
+          <div class="form-group">
+            <label>Cari barang</label>
+            <div class="row">
+              <div class="col-md-9">
+                <div class="form-group">
+                  <%= text_field_tag :nama_barang, params[:nama_barang], class: 'form-control', placeholder: 'cari nama barang ...', autocomplete: 'off' %>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <%= button_tag type: 'submit', class: 'form-control btn-primary' do %>
+                    <i class="nc-icon nc-zoom-split"></i>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <% @barang.each do |b| %>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0 text-capitalize"><%= b.nama_barang %></h4>
+          <hr>
+        </div>
+        <div class="card-body">
+          <div class="form-group"> 
+            <label class="mb-0">Harga Awal</label>
+            <p class="mt-0 text-capitalize">Rp. <%= number_with_delimiter(b.harga_awal) %></p>
+          </div>
+          <div class="form-group">
+            <% lelang = Lelang.find_by(barang_id: b.id) %>
+            <% if lelang.blank? %>
+              <label class="mb-0">Status Lelang</label>
+              <p class="mt-0 text-danger">Belom dibuka</p>
+            <% else %>
+              <label class="mb-0">Status Lelang</label>
+              <% if lelang.status == "dibuka" %>
+                <p class="mt-0 text-capitalize text-success">Dibuka</p>
+              <% elsif lelang.status == "ditutup" %>
+                <p class="mt-0 text-capitalize text-success">Ditutup</p>
+              <% else %>
+                
+              <% end %>
+            <% end %>
+          </div>
+          <hr>
+          <%= link_to 'Atur', barang_lelang_detail_path(b), class: 'btn btn-primary btn-block' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-center">
+      <%= will_paginate @barang, renderer: BootstrapPagination::Rails %>
     </div>
   </div>
 </div>

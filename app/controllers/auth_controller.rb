@@ -1,4 +1,5 @@
 class AuthController < ApplicationController
+
   def new
     @masyarakat = Masyarakat.new
   end

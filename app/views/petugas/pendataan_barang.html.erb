@@ -41,7 +41,7 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Tambah Barang</h4>
-                <p class="text-muted">Tambah barang untuk stok lelang</p>
+                <p class="text-muted">Tambah barang untuk lelang</p>
                 <hr>
             </div>
             <div class="card-body">
@@ -57,10 +57,7 @@
                             <label class="custom-file-label" for="customFile">Pilih Foto Barang</label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <%= b.label 'Tanggal upload' %>
-                        <%= b.date_field :tgl, class: 'form-control', placeholder: 'dd/mm/yyyy', autocomplete: 'off', value: DateTime.current.to_date, readonly: true %>
-                    </div>
+                    <%= b.date_field :tgl, class: 'form-control', hidden: 'true', placeholder: 'dd/mm/yyyy', autocomplete: 'off', value: DateTime.current.to_date, readonly: true %>
                     <div class="form-group">
                         <%= b.label 'Harga awal' %>
                         <%= b.text_field :harga_awal, class: 'form-control', placeholder: 'Contoh : 50000', autocomplete: 'off' %>
@@ -84,7 +81,7 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Daftar Barang</h4>
-                <p class="text-muted">Daftar stok barang lelang</p>  
+                <p class="text-muted">Daftar barang lelang</p>  
                 <hr> 
             </div>
             <div class="card-body">
@@ -107,7 +104,7 @@
                                     <td>
                                         <%= link_to detail_barang_item_path(b), class: 'btn btn-sm btn-primary' do %>
                                             <i class="nc-icon nc-spaceship"></i>
-                                            Setting
+                                            Lihat
                                         <% end %>
                                     </td>
                                 </tr>

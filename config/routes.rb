@@ -19,8 +19,11 @@ Rails.application.routes.draw do
   get '/petugas/pendataan-barang', to: 'petugas#pendataan_barang', as: 'data_barang_p'
   post '/petugas/pendataan-barang', to: 'petugas#create_new_barang', as: 'create_new_barang'
   get '/petugas/pendataan-barang/:id',to: 'petugas#detail_barang_item', as: 'detail_barang_item'
+  post '/petugas/pendataan-barang/:id/buka-lelang', to: 'petugas#buka_lelang', as: 'buka_lelang'
 
   get '/petugas/lelang/', to: 'petugas#barang_lelang', as: 'barang_lelang_p'
+  get '/petugas/lelang/:id', to: 'petugas#barang_lelang_detail', as: 'barang_lelang_detail'
+
   get '/petugas/daftar-petugas/', to: 'petugas#manage_petugas', as: 'manage_petugas'
   post '/petugas/daftar-petugas/', to: 'petugas#create_new_petugas', as: 'create_new_petugas'
   get '/petugas/laporan/', to: 'petugas#generate_laporan', as: 'laporan'

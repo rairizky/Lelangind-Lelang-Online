@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_034406) do
     t.integer "barang_id"
     t.date "tgl_lelang"
     t.integer "harga_akhir"
-    t.integer "user_id"
+    t.integer "masyarakat_id"
     t.integer "petugas_id"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
