@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  # lelangind
   root 'lelangind#index', as: 'lelangind_index'
+  get '/:id/:nama_barang', to: 'lelangind#ikut_lelang', as: 'lelangind_ikut_lelang'
 
   # auth
   get '/auth/', to: 'auth#new',  as: 'auth_new'

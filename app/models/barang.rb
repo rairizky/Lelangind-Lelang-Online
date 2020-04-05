@@ -8,5 +8,5 @@ class Barang < ApplicationRecord
     mount_uploader :img_barang, BarangUploader
 
     has_one :lelang
-
+    has_many :histories
 end

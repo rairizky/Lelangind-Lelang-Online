@@ -7,4 +7,8 @@ class LelangindController < ApplicationController
   def index
     @lelang = Lelang.all.where(status: 'dibuka').order(created_at: :desc)
   end
+
+  def ikut_lelang
+    @item = Lelang.find(params[:id])
+  end
 end

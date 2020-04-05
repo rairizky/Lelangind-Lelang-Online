@@ -10,7 +10,7 @@
             <div class="uk-margin">
                 <span class="uk-label">Info</span>
             </div>
-            <div uk-slideshow="animation: push; autoplay: true; autoplay-interval: 2000; finite: true;">
+            <div uk-slideshow="animation: push; autoplay: true; autoplay-interval: 3000; finite: true;">
 
                 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
             
@@ -45,7 +45,7 @@
                         <div class="uk-card-header">
                             <% find = Lelang.find(lelang.id) %>
                             <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= find.barang.nama_barang %></h4>
-                            <p class="uk-text-meta uk-margin-remove-top">dibuat: <%= lelang.tgl_lelang.strftime("%d-%m-%Y") %></p>
+                            <p class="uk-text-meta uk-margin-remove-top">Dibuat: <%= lelang.tgl_lelang.strftime("%d-%m-%Y") %></p>
                         </div>
                         <div class="uk-card-body">
                             <%= image_tag("#{find.barang.img_barang}", { style: 'width:100%;height:250px;object-fit: cover;' }) %>
@@ -55,15 +55,17 @@
                             </div>
                             <div class="uk-margin">
                                 <p class="uk-text-meta uk-margin-remove-bottom">Penawaran Tertinggi</p>
-                                <% if lelang.harga_akhir.nil? %>
-                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp 0</h4>
+                                <% penawaran_barang = Lelang.find(lelang.id) %>
+                                <% harga_max = penawaran_barang.histories.max %>
+                                <% if harga_max.nil? %>
+                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp. 0</h4>
                                 <% else %>
-                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(lelang.harga_akhir) %></h4>
+                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(harga_max.penawaran_harga) %></h4>
                                 <% end %>
                             </div>
                         </div>
                         <div class="uk-card-footer">
-                            <%= link_to 'Ikut Lelang', '#', class: 'uk-button uk-button-primary uk-width-1-1' %>
+                            <%= link_to 'Ikut Lelang', lelangind_ikut_lelang_path(id: lelang.id, nama_barang: find.barang.nama_barang), class: 'uk-button uk-button-primary uk-width-1-1' %>
                         </div>
                     </div>
                 </div>

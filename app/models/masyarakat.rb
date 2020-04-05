@@ -5,5 +5,6 @@ class Masyarakat < ApplicationRecord
     validates :password, presence: true, length: { minimum: 6, maximum: 20 }
     validates :telp, presence: true, length: { minimum: 9, maximum: 15 }, numericality: true
 
+    has_many :histories
     has_secure_password
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lelang_id: 1
+  barang_id: 1
+  masyarakat_id: 1
+  penawaran_harga: 1
+
+two:
+  lelang_id: 1
+  barang_id: 1
+  masyarakat_id: 1
+  penawaran_harga: 1

@@ -1,0 +1,91 @@
+<% if notice %>
+    <div class="uk-alert-success" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%= notice %></p>
+    </div>
+<% end %>
+<% if alert %>
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%= notice %></p>
+    </div>
+<% end %>
+<% lelang = Lelang.find(@item.id) %>
+<div>
+    <ul class="uk-breadcrumb">
+        <li><%= link_to 'home', lelangind_index_path %></li>
+        <li><span><%= lelang.barang.nama_barang %></span></li>
+    </ul>
+</div>
+<div uk-grid>
+    <div class="uk-width-2-5@m">
+        <div class="uk-card uk-card-small uk-card-default">
+            <div class="uk-card-body">
+                <img src="<%= lelang.barang.img_barang %>" alt="<%= lelang.barang.nama_barang %>">
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div class="uk-card uk-card-small uk-card-default uk-margin">
+            <div class="uk-card-header">
+                <% lelang = Lelang.find(@item.id) %>
+                <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= lelang.barang.nama_barang %></h4>
+            </div>
+            <div class="uk-card-body">
+                <div class="uk-margin uk-margin-remove-bottom">
+                    <label class="uk-text-meta uk-margin-remove-bottom">Tanggal dibuat</label>
+                    <p class="uk-margin-remove-top uk-margin-remove-bottom"><%= lelang.tgl_lelang.strftime("%d-%m-%Y") %></p>
+                </div>
+                <hr class="uk-margin-remove-top uk-margin-remove-bottom">
+                <div class="uk-margin uk-margin-remove-top uk-margin-remove-bottom">
+                    <label class="uk-text-meta uk-margin-remove-bottom">Harga awal</label>
+                    <p class="uk-margin-remove-top uk-text-primary uk-margin-remove-bottom">Rp. <%= number_with_delimiter(lelang.barang.harga_awal) %></p>
+                </div>
+                <hr class="uk-margin-remove-top uk-margin-remove-bottom">
+                <div class="uk-margin uk-margin-remove-top uk-margin-remove-bottom">
+                    <label class="uk-text-meta uk-margin-remove-bottom">Status</label>
+                    <p class="uk-margin-remove-top uk-text-capitalize uk-text-success uk-margin-remove-bottom"><%= @item.status %></p>
+                </div>
+                <hr class="uk-margin-remove-top uk-margin-remove-bottom">
+                <div class="uk-margin uk-margin-remove-top">
+                    <label class="uk-text-meta uk-margin-remove-bottom">Deskrpisi</label>
+                    <p class="uk-margin-remove-top uk-text-capitalize uk-margin-remove-bottom"><%= lelang.barang.deskripsi_barang %></p>
+                </div>
+            </div>
+        </div>
+        <div class="uk-card uk-card-small uk-card-default">
+            <div class="uk-card-header">
+                <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom">Daftar penawaran <span class="uk-text-primary"><%= lelang.barang.nama_barang %></span></h4>
+            </div>
+            <div class="uk-card-body">
+                <% if lelang.histories.blank? %>
+                    <div class="uk-text-center">
+                        <h4>Ajukan penawaranmu sekarang!</h4>
+                        <a href="#" class="uk-button uk-button-primary uk-border-rounded uk-box-shadow-medium">Ikut Lelang!</a>
+                    </div>
+                <% else %>
+                    <table class="uk-table uk-table-small uk-table-divider uk-table-striped">
+                        <caption></caption>
+                        <thead>
+                            <tr>
+                                <th class="uk-table-shrink">No</th>
+                                <th>Nama</th>
+                                <th>Penawaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% penawaran = lelang.histories.order(penawaran_harga: :desc) %>
+                            <% penawaran.each.with_index do |h, index| %>
+                                <tr>
+                                    <td><%= index+1 %></td>
+                                    <td>Masyarakat</td>
+                                    <td class="uk-text-primary">Rp. <%= number_with_delimiter(h.penawaran_harga) %></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
