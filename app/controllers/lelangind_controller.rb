@@ -5,5 +5,6 @@ class LelangindController < ApplicationController
   layout 'lelangind'
 
   def index
+    @lelang = Lelang.all.where(status: 'dibuka').order(created_at: :desc)
   end
 end

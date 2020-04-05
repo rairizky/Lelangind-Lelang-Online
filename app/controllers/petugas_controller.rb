@@ -28,16 +28,6 @@ class PetugasController < ApplicationController
     @item = Barang.find(params[:id])
   end
 
-  def buka_lelang
-    @item = Barang.find(params[:id])
-    buka = Lelang.create(barang_id: @item.id, tgl_lelang: DateTime.current.to_date, petugas_id: current_user_p.id, status: 'dibuka')
-    if buka
-      redirect_to barang_lelang_p_path, notice: "Lelang #{@item.nama_barang} telah dibuka!"
-    else
-      redirect_to detail_barang_item_path, alert: 'Gagal buka lelang!'
-    end
-  end
-
   def barang_lelang
     @barang = Barang.paginate(page: params[:page], per_page: 6).where(nil)
     @barang = Barang.paginate(page: params[:page], per_page: 6).where('nama_barang like ?', "%#{params[:nama_barang]}%") if params[:nama_barang].present?
@@ -45,6 +35,16 @@ class PetugasController < ApplicationController
 
   def barang_lelang_detail
     @item = Barang.find(params[:id])
+  end
+
+  def buka_lelang
+    @item = Barang.find(params[:id])
+    buka = Lelang.create(barang_id: @item.id, tgl_lelang: DateTime.current.to_date, petugas_id: current_user_p.id, status: 'dibuka')
+    if buka
+      redirect_to barang_lelang_detail_path(barang_id: @item.id), notice: "Lelang #{@item.nama_barang} telah dibuka!"
+    else
+      redirect_to barang_lelang_detail_path, alert: 'Gagal buka lelang!'
+    end
   end
 
   def manage_petugas
