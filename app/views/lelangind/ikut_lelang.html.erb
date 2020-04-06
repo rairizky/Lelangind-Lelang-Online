@@ -7,7 +7,7 @@
 <% if alert %>
     <div class="uk-alert-danger" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p><%= notice %></p>
+        <p><%= alert %></p>
     </div>
 <% end %>
 <% lelang = Lelang.find(@item.id) %>
@@ -28,7 +28,6 @@
     <div class="uk-width-expand@m">
         <div class="uk-card uk-card-small uk-card-default uk-margin">
             <div class="uk-card-header">
-                <% lelang = Lelang.find(@item.id) %>
                 <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= lelang.barang.nama_barang %></h4>
             </div>
             <div class="uk-card-body">
@@ -61,9 +60,30 @@
                 <% if lelang.histories.blank? %>
                     <div class="uk-text-center">
                         <h4>Ajukan penawaranmu sekarang!</h4>
-                        <a href="#" class="uk-button uk-button-primary uk-border-rounded uk-box-shadow-medium">Ikut Lelang!</a>
+                        <button href="#modal-penawaran" class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-box-shadowm-medium" uk-toggle>Ikut Lelang</button>
                     </div>
                 <% else %>
+                    <% if current_user_m %>
+                        <% find_user_histories = lelang.histories.find_by(masyarakat_id: current_user_m.id) %>
+                        <% if find_user_histories.nil? %>
+                            <%= form_tag controller: :lelangind, action: :penawaran do %>
+                                <p class="uk-margin-remove-bottom uk-margin-remove-top">Penawaran harus lebih tinggi dari <span class="uk-text-primary">Rp. <%= number_with_delimiter(lelang.histories.max.penawaran_harga) %></span></p>
+                                <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                                    <div class="uk-width-1-2@s">
+                                        <%= number_field_tag :penawaran_harga, '', class: 'uk-input', placeholder: 'Ajukan penawaran' %>
+                                    </div>
+                                    <div class="uk-width-1-4@s">
+                                        <%= submit_tag 'Ajukan', class: 'uk-button uk-button-primary' %>
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% else %>
+                            <p class="uk-margin-remove-bottom uk-margin-remove-top">Anda telah melakukan lelang pada produk ini.</p>
+                        <% end %>
+                    <% else %>
+                        <h4 class="uk-text-meta">Ingin ikut lelang? silahkan <%= link_to 'Login', auth_new_path, class: 'uk-button uk-button-text' %></h4>
+                    <% end %>
+
                     <table class="uk-table uk-table-small uk-table-divider uk-table-striped">
                         <caption></caption>
                         <thead>
@@ -78,7 +98,7 @@
                             <% penawaran.each.with_index do |h, index| %>
                                 <tr>
                                     <td><%= index+1 %></td>
-                                    <td>Masyarakat</td>
+                                    <td class="uk-text-capitalize"><%= h.masyarakat.nama_lengkap %></td>
                                     <td class="uk-text-primary">Rp. <%= number_with_delimiter(h.penawaran_harga) %></td>
                                 </tr>
                             <% end %>
@@ -87,5 +107,29 @@
                 <% end %>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="modal-penawaran" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Ajukan Penawaran</h2>
+        </div>
+        <%= form_tag controller: :lelangind, action: :penawaran do %>
+            <% if penawaran.blank? %>
+                <div class="uk-modal-body">
+                    <p>Penawaran pertama harus lebih dari <span class="uk-text-primary">Rp. <%= number_with_delimiter(lelang.barang.harga_awal) %></span></p>
+                    <div class="uk-margin">
+                        <label>Penawaran</label>
+                        <%= number_field_tag :penawaran_harga, '', class: 'uk-input' %>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <%= submit_tag 'Ajukan', class: 'uk-button uk-button-primary' %>
+                </div>
+            <% end %>
+        <% end %>
     </div>
 </div>

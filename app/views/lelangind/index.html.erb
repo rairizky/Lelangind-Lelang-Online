@@ -38,6 +38,14 @@
     </div>
     <div class="uk-width-expand@m">
         <h2 class="uk-heading-divider">Barang Lelang</h2>
+        <% if @lelang.blank? %>
+            <div class="uk-text-center">
+                <br>
+                <br>
+                <img src="/Asset/img/accs/empty.svg" width="300" alt="">
+                <h3>Belum ada barang.</h3>
+            </div>
+        <% else %>
         <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
             <% @lelang.each do |lelang| %>
                 <div>
@@ -65,11 +73,12 @@
                             </div>
                         </div>
                         <div class="uk-card-footer">
-                            <%= link_to 'Ikut Lelang', lelangind_ikut_lelang_path(id: lelang.id, nama_barang: find.barang.nama_barang), class: 'uk-button uk-button-primary uk-width-1-1' %>
+                            <%= link_to 'Ikut Lelang', lelangind_ikut_lelang_path(lelang), class: 'uk-button uk-button-primary uk-width-1-1' %>
                         </div>
                     </div>
                 </div>
             <% end %>
         </div>
+        <% end %>
     </div>
 </div>

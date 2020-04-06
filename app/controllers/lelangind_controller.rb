@@ -1,5 +1,6 @@
 class LelangindController < ApplicationController
 
+  before_action :m_signed_in?, only: [:penawaran]
   helper_method :current_user_m
 
   layout 'lelangind'
@@ -10,5 +11,39 @@ class LelangindController < ApplicationController
 
   def ikut_lelang
     @item = Lelang.find(params[:id])
+  end
+
+  def penawaran
+    item = Lelang.find(params[:id])
+    penawaran_pertama = item.histories
+    if penawaran_pertama.blank?
+      pengajuan = params[:penawaran_harga]
+      harga_awal = item.barang.harga_awal
+      if (pengajuan.to_i < harga_awal.to_i)
+        redirect_to lelangind_ikut_lelang_path(item), alert: 'Penawaran pertama tidak melebihi harga awal barang!'
+      else
+        History.create(lelang_id: item.id, barang_id: item.barang.id, masyarakat_id: current_user_m.id, penawaran_harga: pengajuan)
+        redirect_to lelangind_ikut_lelang_path(item), notice: 'Berhasil mengajukan barang!'
+      end
+    else
+      harga_max = item.histories.max.penawaran_harga
+      pengajuan = params[:penawaran_harga]
+      if (pengajuan.to_i < harga_max.to_i)
+        redirect_to lelangind_ikut_lelang_path(item), alert: 'Pengajuan harga harus melebihi harga tertinggi lelang!'
+      else
+        History.create(lelang_id: item.id, barang_id: item.barang.id, masyarakat_id: current_user_m.id, penawaran_harga: pengajuan)
+        redirect_to lelangind_ikut_lelang_path(item), notice: 'Berhasil mengajukan barang!'
+      end
+    end
+    # lelang id = item.id
+    # barang id = item.barang.id
+    # masyarakat id = current_user_m.id
+    # penawaran = params[:penawaran]
+    # @ajukan = History.new(lelang_id: item.id, barang_id: item.barang.id, masyarakat_id: current_user_m.id, penawaran_harga: params[:penawaran])
+    # if @ajukan.save
+    #   redirect_to lelangind_ikut_lelang_path(item), notice: 'Berhasil mengajukan barang!'
+    # else
+    #   redirect_to lelangind_ikut_lelang_path(item), alert: 'Gagl mengajukan barang'
+    # end
   end
 end
