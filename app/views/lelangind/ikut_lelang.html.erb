@@ -60,7 +60,11 @@
                 <% if lelang.histories.blank? %>
                     <div class="uk-text-center">
                         <h4>Ajukan penawaranmu sekarang!</h4>
-                        <button href="#modal-penawaran" class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-box-shadowm-medium" uk-toggle>Ikut Lelang</button>
+                        <% if current_user_m %>
+                            <button href="#modal-penawaran" class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-box-shadowm-medium" uk-toggle>Ikut Lelang</button>
+                        <% else %>
+                            <h4 class="uk-text-meta">Ingin ikut lelang? silahkan <%= link_to 'Login', auth_new_path, class: 'uk-button uk-button-text' %></h4>
+                        <% end %>
                     </div>
                 <% else %>
                     <% if current_user_m %>
