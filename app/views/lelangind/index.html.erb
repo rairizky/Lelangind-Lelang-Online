@@ -49,7 +49,7 @@
         <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
             <% @lelang.each do |lelang| %>
                 <div>
-                    <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card uk-card-default uk-card-small uk-card-hover">
                         <div class="uk-card-header">
                             <% find = Lelang.find(lelang.id) %>
                             <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= find.barang.nama_barang %></h4>
@@ -68,7 +68,7 @@
                                 <% if harga_max.nil? %>
                                     <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp. 0</h4>
                                 <% else %>
-                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(harga_max.penawaran_harga) %></h4>
+                                    <h4 class="uk-text-danger uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(harga_max.penawaran_harga) %></h4>
                                 <% end %>
                             </div>
                         </div>

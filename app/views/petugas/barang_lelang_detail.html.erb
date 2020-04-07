@@ -76,12 +76,13 @@
                       <% if lelang.status == "dibuka" %>
                         <label class="mb-0">Status Lelang</label>
                         <p class="mt-0 text-capitalize text-success"><%= lelang.status %></p>
-                        <%= link_to 'Tutup Lelang', '#', class: 'btn btn-info btn-block' %>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#close-lelang">Tutup Lelang</button>
                       <% elsif lelang.status == "ditutup" %>
                         <label class="mb-0">Status Lelang</label>
-                        <p class="mt-0 text-capitalize text-success"><%= lelang.status %></p>
+                        <p class="mt-0 text-capitalize text-danger"><%= lelang.status %></p>
                         <label class="mb-0">Pemenang Lelang</label>
-                        <p><%= link_to 'Hendi Supandi', '#', class: 'text-dark mt-0' %></p>
+                        <% find_m = Masyarakat.find(lelang.masyarakat_id) %>
+                        <p class="text-capitalize text-primary"><%= link_to find_m.nama_lengkap, '#', class: 'text-dark mt-0' %></p>
                       <% else %>
                         
                       <% end %>
@@ -92,7 +93,26 @@
           </div>
         </div>
         <% if lelang.blank? %>
-
+          <!-- Modal Open Lelang -->
+          <div class="modal fade" id="open-lelang" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Buka lelang <span class="text-capitalize text-primary"><%= @item.nama_barang %></span>?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Dengan membuka lelang, maka masyarakat dapat melakukan penawaran barang maksimal 1 akun untuk 1 penawaran. dan pilih tutup lelang jika harga penawaran mencapai harga yang ditentukan.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <%= link_to 'Buka Lelang Sekarang!', buka_lelang_path, class: 'btn btn-primary', method: :post %>
+                </div>
+              </div>
+            </div>
+          </div>
         <% else %>
           <% if lelang.status == "dibuka" %>
             <div class="row">
@@ -103,9 +123,96 @@
                     <p class="text-muted mt-0">Riwayat lelang masyarakat</p>
                     <hr>
                   </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <% history = Barang.find(params[:id]) %>
+                      <table class="table table-sm">
+                        <thead>
+                            <tr class="text-primary">
+                              <th>No</th>
+                              <th>Nama</th>
+                              <th>Penawaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <% history.histories.order(penawaran_harga: :desc).each.with_index do |h, index| %>
+                            <tr>
+                              <td><%= index+1 %></td>
+                              <td class="text-capitalize"><%= h.masyarakat.nama_lengkap %></td>
+                              <td class="text-danger">Rp. <%= number_with_delimiter(h.penawaran_harga) %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- Modal Open Lelang -->
+            <div class="modal fade" id="open-lelang" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Buka lelang <span class="text-capitalize text-primary"><%= @item.nama_barang %></span>?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Dengan membuka lelang, maka masyarakat dapat melakukan penawaran barang maksimal 1 akun untuk 1 penawaran. dan pilih tutup lelang jika harga penawaran mencapai harga yang ditentukan.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <%= link_to 'Buka Lelang Sekarang!', buka_lelang_path, class: 'btn btn-primary', method: :post %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% if @item.lelang.histories.blank? %>
+              <!-- Modal Close Lelang -->
+              <div class="modal fade" id="close-lelang" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Tidak dapat menutup lelang <span class="text-capitalize text-primary"><%= @item.nama_barang %></span></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Penawaran harga masih kosong, tidak diizinkan menutup lelang sebelum ada penawaran dari masyarakat!</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Ya! paham</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              <!-- Modal Close Lelang -->
+              <div class="modal fade" id="close-lelang" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Tutup lelang <span class="text-capitalize text-primary"><%= @item.nama_barang %></span>?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Harga tertinggi dipegang oleh <span class="text-capitalize text-danger"><%= @item.lelang.histories.max.masyarakat.nama_lengkap %></span> dengan penawaran <span class="text-danger">Rp. <%= number_with_delimiter(@item.lelang.histories.max.penawaran_harga) %>.</span></p>
+                      <p>Ingin menutup lelang?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                      <%= link_to 'Ya! Tutup lelang', tutup_lelang_path, class: 'btn btn-primary', method: :post %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           <% elsif lelang.status == "ditutup" %>
             <div class="row">
               <div class="col-md-12">
@@ -114,6 +221,29 @@
                     <h4 class="card-title text-capitalize mb-0">Penawaran <%= @item.nama_barang %></h4>
                     <p class="text-muted mt-0">Riwayat lelang masyarakat</p>
                     <hr>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <% history = Barang.find(params[:id]) %>
+                      <table class="table table-sm">
+                        <thead>
+                            <tr class="text-primary">
+                              <th>No</th>
+                              <th>Nama</th>
+                              <th>Penawaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <% history.histories.order(penawaran_harga: :desc).each.with_index do |h, index| %>
+                            <tr>
+                              <td><%= index+1 %></td>
+                              <td class="text-capitalize"><%= h.masyarakat.nama_lengkap %></td>
+                              <td class="text-danger">Rp. <%= number_with_delimiter(h.penawaran_harga) %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -125,23 +255,4 @@
     </div>
 </div>
 
-<!-- Modal Open Lelang -->
-<div class="modal fade" id="open-lelang" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Buka lelang <span class="text-capitalize"><%= @item.nama_barang %></span>?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Dengan membuka lelang, maka masyarakat dapat melakukan penawaran barang maksimal 1 akun untuk 1 penawaran. dan pilih tutup lelang jika harga penawaran mencapai harga yang ditentukan.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <%= link_to 'Buka Lelang Sekarang!', buka_lelang_path, class: 'btn btn-primary', method: :post %>
-      </div>
-    </div>
-  </div>
-</div>
+

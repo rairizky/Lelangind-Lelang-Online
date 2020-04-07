@@ -29,8 +29,8 @@ class PetugasController < ApplicationController
   end
 
   def barang_lelang
-    @barang = Barang.paginate(page: params[:page], per_page: 6).where(nil)
-    @barang = Barang.paginate(page: params[:page], per_page: 6).where('nama_barang like ?', "%#{params[:nama_barang]}%") if params[:nama_barang].present?
+    @barang = Barang.all.where(nil)
+    @barang = Barang.all.where('nama_barang like ?', "%#{params[:nama_barang]}%") if params[:nama_barang].present?
   end
 
   def barang_lelang_detail
@@ -44,6 +44,18 @@ class PetugasController < ApplicationController
       redirect_to barang_lelang_detail_path(barang_id: @item.id), notice: "Lelang #{@item.nama_barang} telah dibuka!"
     else
       redirect_to barang_lelang_detail_path, alert: 'Gagal buka lelang!'
+    end
+  end
+
+  def tutup_lelang
+    item = Barang.find(params[:id])
+    user_win = item.lelang.histories.max.masyarakat.id
+    penawaran = item.lelang.histories.max.penawaran_harga
+    tutup = Lelang.where(id: item.lelang.id).update(harga_akhir: penawaran, masyarakat_id: user_win, status: 'ditutup')
+    if tutup
+      redirect_to barang_lelang_detail_path(barang_id: item.id), notice: "Lelang #{item.nama_barang} telah ditutup!"
+    else
+      redirect_to barang_lelang_detail_path, alert: 'Gagal tutup lelang!'
     end
   end
 
