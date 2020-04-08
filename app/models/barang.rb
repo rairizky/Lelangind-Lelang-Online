@@ -7,6 +7,6 @@ class Barang < ApplicationRecord
     validates :deskripsi_barang, presence: true, length: { minimum: 5 }
     mount_uploader :img_barang, BarangUploader
 
-    has_one :lelang
-    has_many :histories
+    has_one :lelang, dependent: :destroy
+    has_many :histories, dependent: :destroy
 end

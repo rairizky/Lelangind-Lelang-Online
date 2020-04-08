@@ -10,13 +10,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="uk-background uk-background-muted" uk-height-viewport>
-    <nav class="uk-background uk-background-primary uk-light uk-box-shadow-medium" uk-navbar>
+  <body uk-height-viewport>
+    <nav class="uk-background uk-box-shadow-small" uk-navbar>
       <div class="uk-navbar-left">
   
           <ul class="uk-navbar-nav">
-              <li class="uk-active"><a href="#">Lelangind</a></li>
-              <li><a href="#">Info</a></li>
+              <li class="<%= current_class_f?(lelangind_index_path) %>"><%= link_to 'Lelangind', lelangind_index_path %></li>
+              <li class="<%= current_class_f?(lelangind_lelang_barang_path) %>"><%= link_to 'lelang', lelangind_lelang_barang_path %></li>
           </ul>
   
       </div>
@@ -24,20 +24,11 @@
   
           <ul class="uk-navbar-nav">
               <% if current_user_m %>
-                <li>
-                  <a href="#"><%= current_user_m.nama_lengkap %></a>
-                  <div class="uk-navbar-dropdown">
-                      <ul class="uk-nav uk-navbar-dropdown-nav">
-                          <li class="uk-active"><a href="#">UMUM</a></li>
-                          <li><a href="#">Profile</a></li>
-                          <li><a href="#">History</a></li>
-                          <li class="uk-nav-divider"></li>
-                          <li><%= link_to 'Logout', destroy_s_m_path(current_user_m), method: :delete %></li>
-                      </ul>
-                  </div>
-                </li>
+                <li><%= link_to current_user_m.nama_lengkap, '#' %></li>
+                <li class="<%= current_class_f?(lelangind_history_path) %>"><%= link_to 'History', lelangind_history_path %></li>
+                <li><%= link_to 'Logout', destroy_s_m_path(current_user_m), method: :delete %></li>
               <% else %>
-                <li class="uk-active"><%= link_to 'Masuk / daftar', auth_new_path %></li>
+                <li><%= link_to 'Masuk / daftar', auth_new_path %></li>
               <% end %>
           </ul>
       </div>

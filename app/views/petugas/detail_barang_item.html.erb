@@ -68,11 +68,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-center">
-                    <%= link_to '#', class: 'btn btn-info' do %>
+                    <%= link_to edit_barang_path(@item), class: 'btn btn-info' do %>
                         <i class="nc-icon nc-ruler-pencil"></i>
                         Edit Barang
                     <% end %>
-                    <%= link_to '#', class: 'btn btn-danger' do %>
+                    <%= link_to '#', class: 'btn btn-danger', data: {toggle: 'modal', target: '#delete-alert'} do %>
                         <i class="nc-icon nc-simple-remove"></i>
                         Hapus
                     <% end %>
@@ -80,4 +80,26 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete-alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingin menghapus barang?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Dengan menghapus barang ini, maka Lelang dan History penawaran semuanya akan ikut terhapus. <br>
+        Anda yakin?  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= link_to 'Ya! Hapus', destroy_barang_path, class: 'btn btn-primary', method: :delete %>
+      </div>
+    </div>
+  </div>
 </div>

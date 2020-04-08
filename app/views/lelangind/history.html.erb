@@ -1,0 +1,57 @@
+<h2 class="uk-heading-divider">History Lelang</h2>
+
+<div uk-grid>
+    <div class="uk-width-1-3@m">
+        <div class="uk-card uk-card-small uk-card-default uk-card-body">
+            <h4>Cari History</h4>
+            <%= form_tag lelangind_history_path, method: :get do %>
+                <div class="uk-margin">
+                    <label>Dari tanggal</label>
+                    <%= date_field_tag :dari, params[:dari], max: DateTime.current.to_date, class: 'uk-input' %>
+                </div>
+                <div class="uk-margin">
+                    <label>Hingga tanggal</label>
+                    <%= date_field_tag :hingga, params[:hingga], max: DateTime.current.to_date, class: 'uk-input' %>
+                </div>
+                <div class="uk-margin">
+                    <%= submit_tag 'Cari', class: 'uk-button uk-button-secondary uk-width-1-1', style: 'background-color: #3b3b3b;' %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <% if @history.blank? %>
+            <div class="uk-text-center">
+                <br>
+                <br>
+                <img src="/Asset/img/accs/empty.svg" width="300" alt="">
+                <h3>Tidak ada history.</h3>
+            </div>
+        <% else %>
+            <% @history.each do |h| %>
+                <div class="uk-card uk-card-small uk-border-rounded uk-card-hover uk-card-default uk-card-body uk-margin">
+                    <p class="uk-text-meta uk-text-small uk-margin-remove-top uk-margin-remove-bottom">tanggal : <%= h.created_at.strftime('%d-%m-%Y') %></p>
+                    <h3 class="uk-text-capitalize uk-margin-remove-bottom uk-margin-remove-top"><%= link_to h.barang.nama_barang, lelangind_ikut_lelang_path(h.lelang.id) %></h3>
+                    <table>
+                        <tr>
+                            <td>Penawaran</td>
+                            <td>:</td>
+                            <td class="uk-text-primary">Rp. <%= number_with_delimiter(h.penawaran_harga) %></td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>:</td>
+                            <% if h.lelang.status == 'dibuka' %>
+                                <td class="uk-text-success">Lelang sedang berlangsung</td>
+                            <% elsif h.lelang.status == 'ditutup' %>
+                                <td class="uk-text-danger">Lelang sudah selesai</td>
+                            <% else %>
+
+                            <% end %>
+                        </tr>
+                    </table>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>

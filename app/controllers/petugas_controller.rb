@@ -28,6 +28,28 @@ class PetugasController < ApplicationController
     @item = Barang.find(params[:id])
   end
 
+  def edit_barang
+    @item = Barang.find(params[:id])
+  end
+
+  def update_barang
+    @item = Barang.find(params[:id])
+    if @item.update(barang_edit_params)
+      redirect_to detail_barang_item_path(@item), notice: 'Berhasil update barang!'
+    else
+      render :edit_barang
+    end
+  end
+
+  def destroy_barang
+    @find = Barang.find(params[:id])
+    if @find.destroy
+      redirect_to data_barang_p_path, notice: 'Berhasil menghapus barang'
+    else
+      redirect_to detail_barang_item_path(@find), alert: 'Gagal menghapus barang'
+    end
+  end
+
   def barang_lelang
     @barang = Barang.all.where(nil)
     @barang = Barang.all.where('nama_barang like ?', "%#{params[:nama_barang]}%") if params[:nama_barang].present?
@@ -60,6 +82,9 @@ class PetugasController < ApplicationController
   end
 
   def manage_petugas
+    if current_user_p.level_id == 2
+      redirect_to petugas_index_path, alert: 'Tidak mempunyai akses untuk daftar petugas!'
+    end
     @new_petugas = Petugas.new
     @list_petugas = Petugas.paginate(page: params[:page], per_page: 6).order(created_at: :desc).where(level_id: 2)
   end
@@ -102,5 +127,9 @@ class PetugasController < ApplicationController
 
   def new_barang_params
     params.require(:barang).permit(:nama_barang, :img_barang, :tgl, :harga_awal, :deskripsi_barang)
+  end
+
+  def barang_edit_params
+    params.require(:barang).permit(:nama_barang, :img_barang, :deskripsi_barang)
   end
 end

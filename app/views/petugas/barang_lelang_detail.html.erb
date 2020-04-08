@@ -68,25 +68,48 @@
                   <hr>
                   <div class="form-group">
                     <% lelang = Lelang.find_by(barang_id: @item.id) %>
-                    <% if lelang.blank? %>
+                    <% if current_user_p.level_id == 1 %>
+                      <% if lelang.blank? %>
+                        <label class="mb-0">Status Lelang</label>
+                        <p class="text-danger mt-0">Belom dibuka</p>
+                        
+                      <% else %>
+                        <% if lelang.status == "dibuka" %>
+                          <label class="mb-0">Status Lelang</label>
+                          <p class="mt-0 text-capitalize text-success"><%= lelang.status %></p>
+                          
+                        <% elsif lelang.status == "ditutup" %>
+                          <label class="mb-0">Status Lelang</label>
+                          <p class="mt-0 text-capitalize text-danger"><%= lelang.status %></p>
+                          <label class="mb-0">Pemenang Lelang</label>
+                          <% find_m = Masyarakat.find(lelang.masyarakat_id) %>
+                          <p class="text-capitalize text-primary"><%= find_m.nama_lengkap %> - <%= find_m.telp %></p>
+                        <% else %>
+                          
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <% if lelang.blank? %>
                       <label class="mb-0">Status Lelang</label>
                       <p class="text-danger mt-0">Belom dibuka</p>
                       <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#open-lelang">Buka Lelang Sekarang!</button>
-                    <% else %>
-                      <% if lelang.status == "dibuka" %>
-                        <label class="mb-0">Status Lelang</label>
-                        <p class="mt-0 text-capitalize text-success"><%= lelang.status %></p>
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#close-lelang">Tutup Lelang</button>
-                      <% elsif lelang.status == "ditutup" %>
-                        <label class="mb-0">Status Lelang</label>
-                        <p class="mt-0 text-capitalize text-danger"><%= lelang.status %></p>
-                        <label class="mb-0">Pemenang Lelang</label>
-                        <% find_m = Masyarakat.find(lelang.masyarakat_id) %>
-                        <p class="text-capitalize text-primary"><%= link_to find_m.nama_lengkap, '#', class: 'text-dark mt-0' %></p>
                       <% else %>
-                        
+                        <% if lelang.status == "dibuka" %>
+                          <label class="mb-0">Status Lelang</label>
+                          <p class="mt-0 text-capitalize text-success"><%= lelang.status %></p>
+                          <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#close-lelang">Tutup Lelang</button>
+                        <% elsif lelang.status == "ditutup" %>
+                          <label class="mb-0">Status Lelang</label>
+                          <p class="mt-0 text-capitalize text-danger"><%= lelang.status %></p>
+                          <label class="mb-0">Pemenang Lelang</label>
+                          <% find_m = Masyarakat.find(lelang.masyarakat_id) %>
+                          <p class="text-capitalize text-primary"><%= find_m.nama_lengkap %> - <%= find_m.telp %></p>
+                        <% else %>
+                          
+                        <% end %>
                       <% end %>
                     <% end %>
+
                   </div>
               </div>
             </div>

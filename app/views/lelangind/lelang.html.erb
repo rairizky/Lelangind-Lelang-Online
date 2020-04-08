@@ -1,0 +1,84 @@
+<% if notice %>
+    <div class="uk-alert-success" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%= notice %></p>
+    </div>
+<% end %>
+<div uk-grid>
+    <div class="uk-width-1-3@m">
+        <div class="uk-card uk-card-small uk-card-body uk-card-default">
+            <div class="uk-margin">
+                <span class="uk-label uk-background-secondary" style="background-color: #3b3b3b;">Info</span>
+            </div>
+            <div uk-slideshow="animation: push; autoplay: true; autoplay-interval: 3000; finite: true;">
+
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+            
+                    <ul class="uk-slideshow-items">
+                        <li>
+                            <img src="/Asset/img/slider/l1.jpg" alt="" uk-cover>
+                        </li>
+                        <li>
+                            <img src="/Asset/img/slider/l2.jpg" alt="" uk-cover>
+                        </li>
+                        <li>
+                            <img src="/Asset/img/slider/l3.jpg" alt="" uk-cover>
+                        </li>
+                    </ul>
+            
+                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+            
+                </div>
+            
+                <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+            
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <h2 class="uk-heading-divider">Barang Lelang</h2>
+        <% if @lelang.blank? %>
+            <div class="uk-text-center">
+                <br>
+                <br>
+                <img src="/Asset/img/accs/empty.svg" width="300" alt="">
+                <h3>Belum ada barang.</h3>
+            </div>
+        <% else %>
+        <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+            <% @lelang.each do |lelang| %>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-small uk-card-hover">
+                        <div class="uk-card-header">
+                            <% find = Lelang.find(lelang.id) %>
+                            <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= find.barang.nama_barang %></h4>
+                            <p class="uk-text-meta uk-margin-remove-top">Dibuat: <%= lelang.tgl_lelang.strftime("%d-%m-%Y") %></p>
+                        </div>
+                        <div class="uk-card-body">
+                            <%= image_tag("#{find.barang.img_barang}", { style: 'width:100%;height:250px;object-fit: cover;' }) %>
+                            <div class="uk-margin">
+                                <p class="uk-text-meta uk-margin-remove-bottom">Harga Awal</p>
+                                <h4 class="uk-text-primary uk-margin-remove-top">Rp <%= number_with_delimiter(find.barang.harga_awal) %></h4>
+                            </div>
+                            <div class="uk-margin">
+                                <p class="uk-text-meta uk-margin-remove-bottom">Penawaran Tertinggi</p>
+                                <% penawaran_barang = Lelang.find(lelang.id) %>
+                                <% harga_max = penawaran_barang.histories.max %>
+                                <% if harga_max.nil? %>
+                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp. 0</h4>
+                                <% else %>
+                                    <h4 class="uk-text-danger uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(harga_max.penawaran_harga) %></h4>
+                                <% end %>
+                            </div>
+                        </div>
+                        <div class="uk-card-footer">
+                            <%= link_to 'Ikut Lelang', lelangind_ikut_lelang_path(lelang), class: 'uk-button uk-button-secondary uk-width-1-1', style: 'background-color: #3b3b3b;' %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+</div>

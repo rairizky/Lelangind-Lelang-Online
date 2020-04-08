@@ -1,0 +1,77 @@
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @item.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5><%= pluralize(@item.errors.count, "error") %> Upss!, Gagal tambah barang :</h5>
+    <hr>
+    <ul>
+      <% @item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= link_to 'Home', petugas_index_path %></li>
+                  <li class="breadcrumb-item"><%= link_to 'Pendataan Barang', data_barang_p_path %></li>
+                  <li class="breadcrumb-item"><%= link_to @item.nama_barang, detail_barang_item_path(@item) %></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Edit Barang</h4>
+                <hr>
+            </div>
+            <div class="card-body">
+                <%= form_with model: @item, url: update_barang_path, local: true do |b| %>
+                    <div class="form-group">
+                        <%= b.label 'Nama barang' %>
+                        <%= b.text_field :nama_barang, class: 'form-control', placeholder: 'Contoh : lemari', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Foto barang' %>
+                        <div class="custom-file">
+                            <%= b.file_field :img_barang, class: 'custom-file-input', id: 'customFile' %>
+                            <label class="custom-file-label" for="customFile">Pilih Foto Barang</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <%= b.label 'Deskripsi barang' %>
+                        <%= b.text_area :deskripsi_barang, class: 'form-control', placeholder: 'Deskripsi barang ...', autocomplete: 'off' %>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="update ml-auto mr-auto">
+                                <%= b.submit  class: 'btn btn-primary btn-round' %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    
+</div>

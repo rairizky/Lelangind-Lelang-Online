@@ -54,6 +54,12 @@
                   <p>Petugas</p>
                 <% end %>
               </li>
+              <li class="<%= current_class?(barang_lelang_p_path) %>">
+                <%= link_to barang_lelang_p_path do %>
+                  <i class="nc-icon nc-bullet-list-67"></i>
+                  <p>Lelang Barang</p>
+                <% end %>
+                </li>
             <% elsif current_user_p.level_id == 2 %>
               <li class="<%= current_class?(barang_lelang_p_path) %>">
               <%= link_to barang_lelang_p_path do %>

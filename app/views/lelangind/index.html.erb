@@ -4,81 +4,53 @@
         <p><%= notice %></p>
     </div>
 <% end %>
-<div uk-grid>
-    <div class="uk-width-1-3@m">
-        <div class="uk-card uk-card-small uk-card-body uk-card-default">
-            <div class="uk-margin">
-                <span class="uk-label">Info</span>
-            </div>
-            <div uk-slideshow="animation: push; autoplay: true; autoplay-interval: 3000; finite: true;">
-
-                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-            
-                    <ul class="uk-slideshow-items">
-                        <li>
-                            <img src="/Asset/img/slider/l1.jpg" alt="" uk-cover>
-                        </li>
-                        <li>
-                            <img src="/Asset/img/slider/l2.jpg" alt="" uk-cover>
-                        </li>
-                        <li>
-                            <img src="/Asset/img/slider/l3.jpg" alt="" uk-cover>
-                        </li>
-                    </ul>
-            
-                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-            
-                </div>
-            
-                <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
-            
-            </div>
-        </div>
+<% if alert %>
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%= alert %></p>
     </div>
-    <div class="uk-width-expand@m">
-        <h2 class="uk-heading-divider">Barang Lelang</h2>
-        <% if @lelang.blank? %>
-            <div class="uk-text-center">
-                <br>
-                <br>
-                <img src="/Asset/img/accs/empty.svg" width="300" alt="">
-                <h3>Belum ada barang.</h3>
+<% end %>
+<div class="uk-text-center">
+    <br>
+    <img src="/Asset/img/accs/take_lelang.svg" width="300" alt=""  uk-scrollspy="cls: uk-animation-slide-left; repeat: true; delay: 600">
+    <div uk-scrollspy="cls: uk-animation-slide-right; repeat: true; delay: 1200">
+        <h1 class="uk-text-bolder uk-text-uppercase uk-heading-medium" style="color: #3b3b3b;">Lelangind lelang online</h1>
+        <h4 class="uk-text-light uk-margin-remove-top" style="color: #686c7b;">Cari dan temukan barang berkualitas untuk anda miliki! ayo ikut lelang sekarang!</h4>
+    </div>
+    <div uk-scrollspy="cls: uk-animation-slide-bottom; repeat: true; delay: 1800">
+        <p uk-margin>
+            <a class="uk-button uk-button-default" href="#kelebihan" uk-scroll>lebih lanjut</a>
+            <button class="uk-button uk-button-secondary" style="background-color: #3b3b3b;">Lihat Lelang</button>
+        </p>
+    </div>
+</div><br><br><br><br><br>
+<div class="uk-text-center" id="kelebihan" uk-scrollspy="cls: uk-animation-fade; target: #k; delay: 500; repeat: true">
+    <h2 class="uk-text-normal" style="color: #3b3b3b;">Kenapa harus di <span class="uk-text-uppercase uk-text-bolder">Lelangind</span>?</h2>
+    <h5 class="uk-text-light uk-margin-remove-top" style="color: #686c7b;">Kelebihan pada LELANGIND yang tidak ada pada aplikasi lain ada dibawah ini</h5>
+    <br><br>
+    <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
+        <div>
+            <div id="k">
+                <i class="fas fa-eye fa-5x"></i>
+                <h2 class="uk-margin-medium-top uk-text-light">Pantau</h2>
+                <p>Lelang barang selalu dipantau selama 24 jam, jangan khawatir lelang diabaikan.</p>
             </div>
-        <% else %>
-        <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
-            <% @lelang.each do |lelang| %>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-small uk-card-hover">
-                        <div class="uk-card-header">
-                            <% find = Lelang.find(lelang.id) %>
-                            <h4 class="uk-card-title uk-text-capitalize uk-margin-remove-bottom"><%= find.barang.nama_barang %></h4>
-                            <p class="uk-text-meta uk-margin-remove-top">Dibuat: <%= lelang.tgl_lelang.strftime("%d-%m-%Y") %></p>
-                        </div>
-                        <div class="uk-card-body">
-                            <%= image_tag("#{find.barang.img_barang}", { style: 'width:100%;height:250px;object-fit: cover;' }) %>
-                            <div class="uk-margin">
-                                <p class="uk-text-meta uk-margin-remove-bottom">Harga Awal</p>
-                                <h4 class="uk-text-primary uk-margin-remove-top">Rp <%= number_with_delimiter(find.barang.harga_awal) %></h4>
-                            </div>
-                            <div class="uk-margin">
-                                <p class="uk-text-meta uk-margin-remove-bottom">Penawaran Tertinggi</p>
-                                <% penawaran_barang = Lelang.find(lelang.id) %>
-                                <% harga_max = penawaran_barang.histories.max %>
-                                <% if harga_max.nil? %>
-                                    <h4 class="uk-text-primary uk-margin-remove-top uk-margin-remove-bottom">Rp. 0</h4>
-                                <% else %>
-                                    <h4 class="uk-text-danger uk-margin-remove-top uk-margin-remove-bottom">Rp <%= number_with_delimiter(harga_max.penawaran_harga) %></h4>
-                                <% end %>
-                            </div>
-                        </div>
-                        <div class="uk-card-footer">
-                            <%= link_to 'Ikut Lelang', lelangind_ikut_lelang_path(lelang), class: 'uk-button uk-button-primary uk-width-1-1' %>
-                        </div>
-                    </div>
-                </div>
-            <% end %>
         </div>
-        <% end %>
+        <div>
+            <div id="k">
+                <i class="fas fa-phone-volume fa-5x"></i>
+                <h2 class="uk-margin-medium-top uk-text-light">Dihubungi Langsung</h2>
+                <p>Setelah lelang ditutup, pemenang akan dihubungi langsung oleh petugas.</p>
+            </div>
+        </div>
+        <div>
+            <div id="k">
+                <i class="fas fa-shipping-fast fa-5x"></i>
+                <h2 class="uk-margin-medium-top uk-text-light">Gratis Pengiriman</h2>
+                <p>Pemanang lelang akan mendapat gratis biaya pengiriman barang.</p>
+            </div>
+        </div>
     </div>
 </div>
+
+
