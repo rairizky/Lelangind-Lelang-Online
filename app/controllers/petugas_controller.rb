@@ -100,7 +100,10 @@ class PetugasController < ApplicationController
   end
 
   def generate_laporan
-
+    b_awal = Date.parse("1/#{params[:month]}/#{params[:year]}") if params[:month].present? && params[:year].present?
+    b_akhir = b_awal.end_of_month if params[:month].present? && params[:year].present?
+    @cari = Lelang.where(status: 'ditutup').where(nil)
+    @cari = Lelang.where(status: 'ditutup').where(tgl_lelang: b_awal..b_akhir) if params[:month].present? && params[:year].present?
   end
 
   def profile_petugas

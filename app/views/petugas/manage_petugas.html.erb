@@ -89,7 +89,6 @@
                                 <th>Nama Petugas</th>
                                 <th>Username</th>
                                 <th>Level</th>
-                                <th>#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,16 +98,6 @@
                                     <td><%= list.nama_petugas %></td>
                                     <td><%= list.username %></td>
                                     <td><%= Level.find(list.level_id).level %></td>
-                                    <td>
-                                        <% if list.level_id == 1%>
-
-                                        <% else %>
-                                            <%= link_to '#', class: 'btn btn-sm btn-primary', data: { confirm: "Ingin menghapus akun #{list.nama_petugas}?" } do %>
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                                hapus
-                                            <% end %>
-                                        <% end %>    
-                                    </td>
                                 </tr>
                             <% end %>
                         </tbody>

@@ -22,3 +22,71 @@
       </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <%= form_tag laporan_path, method: :get do %>
+            <div class="form-group">
+              <label>Cari</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= select_month(0, { prompt: '--Pilih bulan--' }, { class: 'form-control', id: 'month', name: 'month' }) %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= select_year(0, { prompt: '--Pilih tahun--' }, { class: 'form-control', id: 'year', name: 'year' }) %>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <%= submit_tag 'Cari', class: 'btn btn-primary btn-block' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <p><%= @cari.count %> orang pemenang</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Barang Lelang</th>
+              <th>Pemenang</th>
+              <th>Penawaran</th>
+              <th>Tanggal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cari.each.with_index do |c, index| %>
+              <tr>
+                <td><%= index+1 %></td>
+                <td><%= c.barang.nama_barang %></td>
+                <td><%= c.masyarakat.nama_lengkap %></td>
+                <td>Rp. <%= number_with_delimiter(c.harga_akhir) %></td>
+                <td><%= c.updated_at.strftime('%d-%m-%Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @cari.blank? %>
+          <p class="text-center">Tidak ada data</p>
+        <% else %>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
