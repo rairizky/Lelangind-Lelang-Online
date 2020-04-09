@@ -20,10 +20,10 @@
     <div uk-scrollspy="cls: uk-animation-slide-bottom; repeat: true; delay: 1800">
         <p uk-margin>
             <a class="uk-button uk-button-default" href="#kelebihan" uk-scroll>lebih lanjut</a>
-            <button class="uk-button uk-button-secondary" style="background-color: #3b3b3b;">Lihat Lelang</button>
+            <%= link_to 'Lihat Lelang', lelangind_lelang_barang_path, class: 'uk-button uk-button-secondary', style: 'background-color: #3b3b3b;' %>
         </p>
     </div>
-</div><br><br><br><br><br><br><br>
+</div><br><br><br><br><br><hr><br><br>
 <div class="uk-text-center" id="kelebihan" uk-scrollspy="cls: uk-animation-fade; target: #k; delay: 500; repeat: true">
     <h2 class="uk-text-normal" style="color: #3b3b3b;">Kenapa harus di <span class="uk-text-uppercase uk-text-bolder">Lelangind</span>?</h2>
     <h5 class="uk-text-light uk-margin-remove-top" style="color: #686c7b;">Kelebihan pada LELANGIND yang tidak ada pada aplikasi lain ada dibawah ini</h5>
@@ -51,6 +51,20 @@
             </div>
         </div>
     </div>
+</div>
+<br><br>
+<hr>
+<br><br>
+<div class="uk-text-center" uk-scrollspy="cls: uk-animation-fade; target: #l; delay: 500; repeat: true">
+    <h2 id="l" class="uk-text-normal" style="color: #3b3b3b;">Tunggu apalagi <span class="uk-text-bolder uk-text-capitalize">daftarkan</span> dirimu sekarang juga!</h2>
+    <h5 id="l" class="uk-text-light uk-margin-remove-top" style="color: #686c7b;">Gunakan kesempatan ini untuk menemukan barang barang menarik dengan harga yang menarik juga</h5>
+    <p id="l" uk-margin>
+        <% if current_user_m %>
+            <%= link_to 'Lihat Lelang', lelangind_lelang_barang_path, class: 'uk-button uk-button-secondary', style: 'background-color: #3b3b3b;' %>
+        <% else %>
+            <%= link_to 'Daftar', auth_new_path, class: 'uk-button uk-button-secondary', style: 'background-color: #3b3b3b;' %>
+        <% end %>
+    </p>
 </div>
 
 

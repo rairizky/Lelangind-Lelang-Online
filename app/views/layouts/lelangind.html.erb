@@ -24,7 +24,7 @@
   
           <ul class="uk-navbar-nav">
               <% if current_user_m %>
-                <li><%= link_to current_user_m.nama_lengkap, '#' %></li>
+                <li><%= link_to current_user_m.nama_lengkap, lelangind_profile_path(current_user_m) %></li>
                 <li class="<%= current_class_f?(lelangind_history_path) %>"><%= link_to 'History', lelangind_history_path %></li>
                 <li><%= link_to 'Logout', destroy_s_m_path(current_user_m), method: :delete %></li>
               <% else %>

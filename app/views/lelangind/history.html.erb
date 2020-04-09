@@ -31,7 +31,7 @@
             <% @history.each do |h| %>
                 <div class="uk-card uk-card-small uk-border-rounded uk-card-hover uk-card-default uk-card-body uk-margin">
                     <p class="uk-text-meta uk-text-small uk-margin-remove-top uk-margin-remove-bottom">tanggal : <%= h.created_at.strftime('%d-%m-%Y') %></p>
-                    <h3 class="uk-text-capitalize uk-margin-remove-bottom uk-margin-remove-top"><%= link_to h.barang.nama_barang, lelangind_ikut_lelang_path(h.lelang.id) %></h3>
+                    <h3 class="uk-text-capitalize uk-margin-remove-bottom uk-margin-remove-top"><%= link_to h.barang.nama_barang, lelangind_ikut_lelang_path(h.lelang.id), class: 'uk-text-bolder', style: 'text-decoration: none; color: #3b3b3b;' %></h3>
                     <table>
                         <tr>
                             <td>Penawaran</td>

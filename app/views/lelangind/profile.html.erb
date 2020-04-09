@@ -1,0 +1,73 @@
+<div uk-grid>
+    <div class="uk-width-1-3@m">
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h1 class="uk-heading-large uk-margin-remove-bottom uk-text-uppercase" style="color: #3b3b3b;"><%= @get_profile.nama_lengkap.first %></h1>
+                <div class="uk-margin uk-margin-remove-top ">
+                    <label class="uk-margin-remove-bottom uk-text-meta">Nama</label>
+                    <h4 class="uk-text-capitalize uk-margin-remove-top "><%= @get_profile.nama_lengkap %></h4>
+                </div>
+                <div class="uk-margin uk-margin-remove-top ">
+                    <label class="uk-margin-remove-bottom uk-text-meta">Username</label>
+                    <h4 class="uk-margin-remove-top "><%= @get_profile.username %></h4>
+                </div>
+                <div class="uk-margin uk-margin-remove-top ">
+                    <label class="uk-margin-remove-bottom uk-text-meta">Telp</label>
+                    <h4 class="uk-text-capitalize uk-margin-remove-top "><%= @get_profile.telp %></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-header">
+                    <h3>Edit Profile</h3>
+                </div>
+                <div class="uk-card-body">
+                    <% if alert %>
+                        <div class="uk-alert-danger" uk-alert>
+                            <a class="uk-alert-close" uk-close></a>
+                            <p><%= alert %></p>
+                        </div>
+                        <% end %>
+                        <% if notice %>
+                            <div class="uk-alert-success" uk-alert>
+                                <a class="uk-alert-close" uk-close></a>
+                                <p><%= notice %></p>
+                            </div>
+                        <% end %>
+                        <% if @get_profile.errors.any? %>
+                            <div class="uk-alert-danger" uk-alert>
+                                <a class="uk-alert-close" uk-close></a>
+                                <h5><%= pluralize(@get_profile.errors.count, "error") %> Upss!, tidak bisa update :</h5>
+                                <hr>
+                                <ul>
+                                <% @get_profile.errors.full_messages.each do |msg| %>
+                                <li><%= msg %></li>
+                                <% end %>
+                                </ul>
+                            </div>
+                    <% end %>
+                    <%= form_with model: @get_profile, url: lelangind_update_profile_path, local: true do |f| %>
+                        <div class="uk-margin uk-margin-remove-top">
+                            <label class="uk-text-meta">Nama Lengkap</label>
+                            <%= f.text_field :nama_lengkap, class: 'uk-input', autocomplete: 'off' %>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-text-meta">Username</label>
+                            <%= f.text_field :username, class: 'uk-input', autocomplete: 'off' %>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-text-meta">Telp</label>
+                            <%= f.number_field :telp, class: 'uk-input', autocomplete: 'off' %>
+                        </div><br>
+                        <div class="uk-margin uk-text-center">
+                            <%= f.submit 'Update Profile', class: 'uk-button uk-button-secondary', style: 'background-color: #3b3b3b;' %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

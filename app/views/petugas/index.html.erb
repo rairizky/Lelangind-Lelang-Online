@@ -92,7 +92,7 @@
             <div class="col-7 col-md-8">
               <div class="numbers">
                 <p class="card-category">Jumlah Petugas</p>
-                <p class="card-title"><%= Petugas.all.count %><p>
+                <p class="card-title"><%= Petugas.all.where(level_id: 2).count %><p>
               </div>
             </div>
           </div>

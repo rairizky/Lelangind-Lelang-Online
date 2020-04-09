@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'lelang/:id/', to: 'lelangind#ikut_lelang', as: 'lelangind_ikut_lelang'
   post 'lelang/:id/', to: 'lelangind#penawaran', as: 'lelangind_ajukan_penawaran'
   get '/history/', to: 'lelangind#history', as: 'lelangind_history'
+  get '/:id/profile', to: 'lelangind#profile', as: 'lelangind_profile'
+  patch '/:id/profile/', to: 'lelangind#update_profile', as: 'lelangind_update_profile'
 
   # auth
   get '/auth/', to: 'auth#new',  as: 'auth_new'

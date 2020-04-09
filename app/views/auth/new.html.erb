@@ -2,7 +2,7 @@
     <div class="uk-flex uk-flex-center uk-flex-middle uk-padding-small" uk-height-viewport>
         <div class="uk-margin">
             <div class="uk-text-center">
-                <h2 class="uk-margin-remove-bottom">Lelangind</h3>
+                <h2 class="uk-margin-remove-bottom"><%= link_to 'Lelangind', lelangind_index_path, style: 'color: #3b3b3b; text-decoration: none; display: inline-block;' %></h3>
                 <h4 class="uk-text-meta uk-margin-remove-top">Aplikasi lelang online.</h5>
             </div>
             <div class="uk-card uk-card-default uk-border-rounded uk-box-shadow-medium uk-width-2-2">
@@ -51,7 +51,7 @@
                                     <%= password_field_tag :password, '', class: 'uk-input uk-width-1-1', placeholder: '••••••' %>
                                 </div>
                                 <div class="uk-margin">
-                                    <%= submit_tag 'Masuk', class: 'uk-button uk-button-primary uk-width-1-1 uk-margin' %>
+                                    <%= submit_tag 'Masuk', class: 'uk-button uk-button-secondary uk-width-1-1 uk-margin', style: 'background-color: #3b3b3b;' %>
                                 </div>
                             <% end %>
                         </div>
@@ -76,7 +76,7 @@
                                     <%= f.text_field :telp, class: 'uk-input uk-width-1-1', placeholder: '0858xxxx', autocomplete: 'off' %>
                                 </div>
                                 <div clas]uk-margin>
-                                    <%= f.submit 'Daftar', class: 'uk-input uk-button uk-button-primary uk-width-1-1 uk-margin' %>
+                                    <%= f.submit 'Daftar', class: 'uk-input uk-button uk-button-secondary uk-width-1-1 uk-margin', style: 'background-color: #3b3b3b;' %>
                                 </div>
                             <% end %>
                         </div>

@@ -1,6 +1,6 @@
 class LelangindController < ApplicationController
 
-  before_action :m_signed_in?, only: [:penawaran, :history]
+  before_action :m_signed_in?, only: [:penawaran, :history, :profile, :update_profile]
   helper_method :current_user_m
 
   layout 'lelangind'
@@ -44,5 +44,23 @@ class LelangindController < ApplicationController
   def history
     @history = History.all.where(masyarakat_id: current_user_m.id).order(created_at: :desc).where(nil)
     @history = History.all.where(masyarakat_id: current_user_m.id).order(created_at: :desc).where('created_at BETWEEN ? AND ?', params[:dari].to_date.beginning_of_day, params[:hingga].to_date.end_of_day) if params[:dari].present? && params[:hingga].present?
+  end
+
+  def profile
+    @get_profile = Masyarakat.find(params[:id])
+  end
+
+  def update_profile
+    @get_profile = Masyarakat.find(params[:id])
+    if @get_profile.update(profile_m_params)
+      redirect_to lelangind_profile_path, notice: 'Berhasil update profile'
+    else
+      render :profile
+    end
+  end
+
+  private
+  def profile_m_params
+    params.require(:masyarakat).permit(:nama_lengkap, :username, :telp)
   end
 end

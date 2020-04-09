@@ -76,7 +76,7 @@
                 <td><%= c.barang.nama_barang %></td>
                 <td><%= c.masyarakat.nama_lengkap %></td>
                 <td>Rp. <%= number_with_delimiter(c.harga_akhir) %></td>
-                <td><%= c.updated_at.strftime('%d-%m-%Y') %></td>
+                <td><%= c.created_at.strftime('%d-%m-%Y') %></td>
               </tr>
             <% end %>
           </tbody>
