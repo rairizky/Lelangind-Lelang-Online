@@ -4,7 +4,7 @@ Technology:
 * Ruby
 * PostgreSQL
 
-sorry the picture doesn't appear, because i don't use AWS, i use heroku and local storage
+sorry the picture doesn't appear, because i not use AWS, i use heroku and local storage, soon use cloudinary
 
 
 ![Screen Shot 2020-06-03 at 14 17 20](https://user-images.githubusercontent.com/43008134/83607683-ddf18000-a5a5-11ea-9a9b-8150f47adfbd.png)
